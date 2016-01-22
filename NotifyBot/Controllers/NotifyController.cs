@@ -2,17 +2,15 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using System.Net.Mail;
+
 using NotifyBot.Models;
 using NotifyBot.Utility;
 
 namespace NotifyBot.Controllers
 {
-    using Microsoft.Azure.Documents;
+    using System.Text.RegularExpressions;
 
     using Newtonsoft.Json;
-
-    using ServiceStack;
 
     public class NotifyController : ApiController
     {
@@ -46,7 +44,9 @@ namespace NotifyBot.Controllers
                     switch (command)
                     {
                         case Command.Add:
-                            result = commandHandler.Add(message);
+                            var addTask = commandHandler.Add(message);
+                            addTask.Wait();
+                            result = addTask.Result;
                             break;
                         case Command.Update:
                             result = commandHandler.Update(message);
@@ -55,9 +55,27 @@ namespace NotifyBot.Controllers
                 }
                 else
                 {
+                    var isHtml = false;
+                    var parsedbody = Parser.SplitOnFirstWord(message);
+                    var regex = new Regex(@"^\^(\d)*");
+                    var match = regex.Match(parsedbody.Item1);
+                    if (match.Success)
+                    {
+                        var regexDigits = new Regex(@"(\d)+");
+                        var matchDigits = regexDigits.Match(parsedbody.Item1);
+                        if (matchDigits.Success)
+                        {
+                            var messageHistory = new MessageHistory();
+
+                            isHtml = true;
+                            message = messageHistory.GetRoomMessageHistory(matchDigits.Value);
+                        }
+
+                        
+                    }
                     var senderName = request.Item.message.from.name;
                     var senderMention = request.Item.message.from.mention_name;
-                    result = commandHandler.Email(senderName, senderMention, commandString, message);
+                    result = commandHandler.Email(senderName, senderMention, commandString, message, isHtml);
                 }
 
                 if (result == null)

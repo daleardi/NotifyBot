@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace NotifyBot.Utility
+﻿namespace NotifyBot.Utility
 {
     using System.Net;
     using System.Net.Mail;
-
-    using Microsoft.Azure.Documents;
+    using System.Threading.Tasks;
 
     using NotifyBot.Models;
 
@@ -25,42 +19,42 @@ namespace NotifyBot.Utility
             dataRepository = new DocumentDbRepository();
             dataRepository.Setup();
         }
-        public string Add(string message)
+        public async Task<string> Add(string message)
         {
             var parsedMessage = Parser.SplitOnFirstWord(message);
             var notification = new Notification { Id = parsedMessage.Item1.Trim(), Type = "email", Recipients = parsedMessage.Item2 };
-            var documentTask = dataRepository.CreateDocumentAsync(notification.Id, notification);
-            documentTask.Wait();
-            if (documentTask.Result != null)
+            var documentTask = await dataRepository.CreateDocumentAsync(notification.Id, notification);
+            
+            if (documentTask != null)
             {
                 return "Added Successfully";
             }
-            throw new Exception("That notification alias already exists");
+            return "That notification alias already exists";
         }
 
         public string Update(string message)
         {
-            throw new Exception("That notification alias doesn't exists");
+            return "That notification alias doesn't exists";
         }
 
-        public string Email(string senderName, string senderMention, string documentId, string message)
+        public string Email(string senderName, string senderMention, string documentId, string message, bool isHtml)
         {
             var document = dataRepository.GetDocument(documentId);
 
             if (document == null)
             {
-                throw new Exception("That notification alias doesn't exists");
+                return "That notification alias doesn't exists";
             }
             //Send emails
             var to = Newtonsoft.Json.JsonConvert.DeserializeObject<Notification>(document.ToString()).Recipients;
             var subject = senderName + " AKA " + senderMention + " has notified you!";
             var body = message;
 
-            this.sendEmail(to, subject, body);
+            this.sendEmail(to, subject, body, isHtml);
             return "Email sent successfully";
         }
 
-        private void sendEmail(string to, string subject, string body)
+        private void sendEmail(string to, string subject, string body, bool isHtml)
         {
             var message = new MailMessage();
             const string FromEmail = "hipchatemailbot@gmail.com";
@@ -70,7 +64,7 @@ namespace NotifyBot.Utility
             message.To.Add(toEmail);
             message.Subject = subject;
             message.Body = body;
-            message.IsBodyHtml = false;
+            message.IsBodyHtml = isHtml;
             message.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
 
             using (var smtpClient = new SmtpClient("smtp.gmail.com", 587))
