@@ -1,5 +1,6 @@
 ﻿namespace NotifyBot.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Web.UI;
@@ -7,7 +8,7 @@
 
     public class MessageHistory
     {
-        public Dictionary<string, string> MessagesBySender { get; set; }
+        public List<Tuple<string, string>> MessagesBySender { get; set; }
 
         public string GetEmailMessage()
         {
@@ -17,8 +18,8 @@
             {
                 var row = new HtmlTableRow();
 
-                var fromCell = new HtmlTableCell { InnerText = message.Key };
-                var messageCell = new HtmlTableCell { InnerText = message.Value };
+                var fromCell = new HtmlTableCell { InnerText = message.Item1 };
+                var messageCell = new HtmlTableCell { InnerText = message.Item2 };
 
                 row.Cells.Add(fromCell);
                 row.Cells.Add(messageCell);

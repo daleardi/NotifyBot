@@ -29,11 +29,11 @@
 
             var history = this.client.ViewRoomHistory(this.roomName, maxResults: numPreviousMessages);
 
-            var messageHistory = new MessageHistory { MessagesBySender = new Dictionary<string, string>() };
+            var messageHistory = new MessageHistory { MessagesBySender = new List<Tuple<string, string>>() };
 
             foreach (var record in history.Items)
             {
-                messageHistory.MessagesBySender.Add(record.From, record.Message);
+                messageHistory.MessagesBySender.Add(new Tuple<string, string>(record.From, record.Message));
             }
 
             return messageHistory;
