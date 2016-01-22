@@ -68,7 +68,7 @@ namespace NotifyBot.Controllers
                             var roomHistory = new RoomHistory(request.Item.room.name);
 
                             isHtml = true;
-                            message = roomHistory.GetRoomMessageHistory(int.Parse(matchDigits.Value)).GetEmailMessage();
+                            message = roomHistory.GetRoomMessageHistory(int.Parse(matchDigits.Value)+1).GetEmailMessage();
                         }
 
                         

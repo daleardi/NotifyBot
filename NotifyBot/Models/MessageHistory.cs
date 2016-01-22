@@ -31,7 +31,7 @@
             {
                 table.RenderControl(new HtmlTextWriter(writer));
 
-                return "<html><body>" + writer + "</body></html>";
+                return "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\">" + writer ;
             }
         }
     }
