@@ -49,7 +49,7 @@
             //Send emails
             var to = Newtonsoft.Json.JsonConvert.DeserializeObject<Notification>(document.ToString()).Recipients;
             var subject = senderName + " AKA " + senderMention + " has notified you!";
-            var body = HttpUtility.HtmlEncode(message);
+            var body = message;
 
             this.sendEmail(to, subject, body, isHtml);
             return "Email sent successfully";
