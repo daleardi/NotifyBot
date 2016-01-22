@@ -87,7 +87,7 @@ namespace NotifyBot.Controllers
                 var responseBody = new NotifyResponse
                 {
                     color = "green",
-                    message = "It's going to be sunny tomorrow! (" + result + " )",
+                    message = result,
                     message_format = "text",
                     notify = "false"
                 };
