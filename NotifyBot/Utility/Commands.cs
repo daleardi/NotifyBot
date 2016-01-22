@@ -20,17 +20,11 @@
             dataRepository = new DocumentDbRepository();
             dataRepository.Setup();
         }
-        public async Task<string> Add(string message)
+        public void Add(string message)
         {
             var parsedMessage = Parser.SplitOnFirstWord(message);
             var notification = new Notification { Id = parsedMessage.Item1.Trim(), Type = "email", Recipients = parsedMessage.Item2 };
-            var documentTask = await dataRepository.CreateDocumentAsync(notification.Id, notification);
-            
-            if (documentTask != null)
-            {
-                return "Added Successfully";
-            }
-            return "That notification alias already exists";
+            dataRepository.CreateDocumentAsync(notification.Id, notification);
         }
 
         public string Update(string message)

@@ -44,9 +44,8 @@ namespace NotifyBot.Controllers
                     switch (command)
                     {
                         case Command.Add:
-                            var addTask = commandHandler.Add(message);
-                            addTask.Wait();
-                            result = addTask.Result;
+                            commandHandler.Add(message);
+                            result = "Added Successfully";
                             break;
                         case Command.Update:
                             result = commandHandler.Update(message);
@@ -80,7 +79,7 @@ namespace NotifyBot.Controllers
 
                 if (result == null)
                 {
-                    throw new Exception("invalid command");
+                    throw new Exception("error");
                 }
 
 
