@@ -15,7 +15,7 @@
 
         public RoomHistory(string roomName)
         {
-            this.client = new HipchatClient("9546c6c3c0b41f88abfda6bb6e0641");
+            this.client = new HipchatClient("z0FtjCYeyGTBsDjnYlohg4fkZlT60NlawQ3VT3Bp");
 
             this.roomName = roomName;
         }
