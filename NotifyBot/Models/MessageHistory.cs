@@ -20,7 +20,7 @@
                 builder.Append(message.Item1);
                 builder.AppendLine(": ");
                 builder.AppendLine(message.Item2);
-                builder.AppendLine("<br>");
+                builder.AppendLine();
             }
 
             return builder.ToString();

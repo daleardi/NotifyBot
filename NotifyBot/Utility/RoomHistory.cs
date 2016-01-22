@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using HipchatApiV2;
 
@@ -33,7 +34,18 @@
 
             foreach (var record in history.Items)
             {
-                messageHistory.MessagesBySender.Add(new Tuple<string, string>(record.From, record.Message));
+                var temp = record.From.Split(',');
+                var temp2 = temp.FirstOrDefault(s => s.StartsWith(" name"));
+                var temp3 = "";
+                if (!string.IsNullOrEmpty(temp2))
+                {
+                    temp3 = temp2.Substring(5);
+                }
+                else
+                {
+                    temp3 = record.From;
+                }
+                messageHistory.MessagesBySender.Add(new Tuple<string, string>(temp3, record.Message));
             }
 
             return messageHistory;
