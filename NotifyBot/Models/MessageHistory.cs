@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Text;
     using System.Web.UI;
     using System.Web.UI.HtmlControls;
 
@@ -12,27 +13,17 @@
 
         public string GetEmailMessage()
         {
-            var table = new HtmlTable();
+            var builder = new StringBuilder();
 
             foreach (var message in this.MessagesBySender)
             {
-                var row = new HtmlTableRow();
-
-                var fromCell = new HtmlTableCell { InnerText = message.Item1 };
-                var messageCell = new HtmlTableCell { InnerText = message.Item2 };
-
-                row.Cells.Add(fromCell);
-                row.Cells.Add(messageCell);
-
-                table.Rows.Add(row);
+                builder.Append(message.Item1);
+                builder.AppendLine(": ");
+                builder.AppendLine(message.Item2);
+                builder.AppendLine("<br>");
             }
 
-            using (var writer = new StringWriter())
-            {
-                table.RenderControl(new HtmlTextWriter(writer));
-
-                return "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=us-ascii\">" + writer ;
-            }
+            return builder.ToString();
         }
     }
 }
