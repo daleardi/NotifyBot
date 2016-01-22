@@ -65,10 +65,10 @@ namespace NotifyBot.Controllers
                         var matchDigits = regexDigits.Match(parsedbody.Item1);
                         if (matchDigits.Success)
                         {
-                            var messageHistory = new MessageHistory();
+                            var roomHistory = new RoomHistory(request.Item.room.name);
 
                             isHtml = true;
-                            message = messageHistory.GetRoomMessageHistory(matchDigits.Value);
+                            message = roomHistory.GetRoomMessageHistory(int.Parse(matchDigits.Value)).GetEmailMessage();
                         }
 
                         

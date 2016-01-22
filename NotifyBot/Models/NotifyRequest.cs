@@ -12,6 +12,12 @@
     public class HcItem 
     {
         public HcMessage message { get; set; }
+        public HcRoom room { get; set; }
+    }
+
+    public class HcRoom 
+    {
+        public string name { get; set; }
     }
 
     public class HcMessage
