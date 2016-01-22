@@ -165,6 +165,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\MessageHistory.cs" />
     <Compile Include="Models\Notification.cs" />
     <Compile Include="Models\NotifyRequest.cs" />
     <Compile Include="Models\NotifyResponse.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Utility\Commands.cs" />
     <Compile Include="Utility\DocumentDb.cs" />
     <Compile Include="Utility\Parser.cs" />
+    <Compile Include="Utility\RoomHistory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
