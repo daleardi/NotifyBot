@@ -39,7 +39,7 @@
                 var temp3 = "";
                 if (!string.IsNullOrEmpty(temp2))
                 {
-                    temp3 = temp2.Substring(5);
+                    temp3 = temp2.Substring(7);
                 }
                 else
                 {
