@@ -31,7 +31,7 @@
             {
                 table.RenderControl(new HtmlTextWriter(writer));
 
-                return writer.ToString();
+                return "<HTML>" + writer + "</HTML>";
             }
         }
     }
