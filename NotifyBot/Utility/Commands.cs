@@ -3,6 +3,7 @@
     using System.Net;
     using System.Net.Mail;
     using System.Threading.Tasks;
+    using System.Web;
 
     using NotifyBot.Models;
 
@@ -48,7 +49,7 @@
             //Send emails
             var to = Newtonsoft.Json.JsonConvert.DeserializeObject<Notification>(document.ToString()).Recipients;
             var subject = senderName + " AKA " + senderMention + " has notified you!";
-            var body = message;
+            var body = HttpUtility.HtmlEncode(message);
 
             this.sendEmail(to, subject, body, isHtml);
             return "Email sent successfully";
